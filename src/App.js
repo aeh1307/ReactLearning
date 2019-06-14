@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import './App.css';
+import classes from './App.css';
 
 import Person from './Person/Person'; 
 
@@ -7,9 +7,9 @@ import Person from './Person/Person';
 class App extends Component{
 state = {
       persons: [
-        {name: 'Max', age: 28},
-        {name: 'Manu', age: 29},
-        {name: 'Stephanie', age: 26}
+        { id: 'person1', name: 'Max', age: 28},
+        {id: 'person2', name: 'Manu', age: 29},
+        {id: 'person3', name: 'Stephanie', age: 26}
         ],
         otherState: 'Some other value',
         showPersons: false
@@ -99,19 +99,19 @@ switchNameHandler = (newName) => {
           style.backgroundColor = 'red';   
         }
 
-      const classes = [];  
+      const assignedClasses = [];  
       if(this.state.persons.length <=2){
-        classes.push('red');  // classes = ['red']
+        assignedClasses.push(classes.red);  // classes = ['red']
       }
       if(this.state.persons.length <= 1){
-        classes.push('bold'); // classes = ['red', 'bold']
+        assignedClasses.push(classes.bold); // classes = ['red', 'bold']
       }
 
     return (
 
-      <div className="App"> 
+      <div className={classes.App}> 
         <h1>Hi, I'm a react App</h1>
-        <p className={classes.join(' ')}>This is really working</p>
+        <p className={assignedClasses.join(' ')}>This is really working</p>
         <button 
         style = {style}
         onClick={ () => this.togglePersonHandler('MAximillian')}>Toggle Persons</button>

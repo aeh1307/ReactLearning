@@ -1,26 +1,32 @@
-import React, { Component} from 'react';
-import PropTypes from 'prop-types'; 
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import Aux from '../../../hoc/Auxiliary';
 import classes from './Person.css';
 import withClass from '../../../hoc/WithClass';
+import AuthContext from '../../../context/Auth-context';
 
 class Person extends Component {
-constructor(props){
-    super(props);
-    this.inputElementRef = React.createRef();
-}
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef();
+    }
 
+    static contextType = AuthContext;
 
-componentDidMount(){
-    // this.inputElement.focus();
-    this.inputElementRef.current.focus(); 
-}
+    componentDidMount() {
+        // this.inputElement.focus();
+        this.inputElementRef.current.focus();
+        console.log(this.context.authenticated);
+    }
 
     render() {
         console.log('[Person.js] rendering ...');
         return (
             <Aux>
+
+                {this.context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>}
+
                 <p onClick={this.props.click}>
                     I'm {this.props.name} and I am {this.props.age} years old!
                 </p>
@@ -44,10 +50,10 @@ componentDidMount(){
 // Beneficial when working with other developers so they get a message when trying to
 //use the component you've made in a wrong way. 
 Person.propTypes = {
-click: PropTypes.func,
-name: PropTypes.string,
-age: PropTypes.number,
-changed: PropTypes.func
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
 };
 
 

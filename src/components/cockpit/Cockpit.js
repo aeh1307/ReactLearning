@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import classes from './Cockpit.css';
 
@@ -10,13 +10,18 @@ import classes from './Cockpit.css';
 
 
 //ComponentDidMount and ComponentDidUpdate combiend in one effect: 
-const cockpit = props => {
+const Cockpit = props => {
+  const toggleBtnRef = useRef(null); //null is passed as inital value.
+
+
+  //NB: useEffect runs after every render cycle.
   useEffect(() => {
     console.log('[Cockpit.js] useEffect');
     // Http request...faked:
-    setTimeout(() => {
-      alert('Saved data to cloud!');
-    }, 1000);
+    // setTimeout(() => {
+    //   alert('Saved data to cloud!');
+    // }, 1000);
+    toggleBtnRef.current.click(); 
     return () => {
       console.log('[Cockpit.js] cleanup work in useEffect');
     };
@@ -29,8 +34,8 @@ const cockpit = props => {
     };
   });
 
-//If you just want ComponentDidMount, you can use useEffect with an empty array
-//as second argument.
+  //If you just want ComponentDidMount, you can use useEffect with an empty array
+  //as second argument.
 
   //If you have different effects than depends on different data,
   // you can have as many useEffect setups as you want. 
@@ -43,10 +48,10 @@ const cockpit = props => {
   }
 
 
-  if (props.persons.length <= 2) {
+  if (props.personsLength <= 2) {
     assignedClasses.push(classes.Red);  // classes = ['red']
   }
-  if (props.persons.length <= 1) {
+  if (props.personsLength <= 1) {
     assignedClasses.push(classes.bold); // classes = ['red', 'bold']
   }
 
@@ -54,13 +59,14 @@ const cockpit = props => {
     <div className={classes.Cockpit}>
       <h1>{props.title}</h1>
       <p className={assignedClasses.join(' ')}>This is really working</p>
-      <button className={btnClass} onClick={props.clicked}>
+      <button ref={toggleBtnRef} className={btnClass} onClick={props.clicked}>
         Toggle Persons
         </button>
+        <button onClick={props.login}>Log in</button>
     </div>
   );
 
 };
 
 
-export default cockpit; 
+export default React.memo(Cockpit); 
